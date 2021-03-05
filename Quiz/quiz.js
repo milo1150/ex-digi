@@ -1,5 +1,7 @@
 "use strict";
 function maxNum(arr, k) {
+    if (k > arr.length)
+        return -1;
     var max = 0;
     for (var i = 0; i < arr.length - k + 1; i++) {
         var s = 0;
@@ -13,38 +15,41 @@ function maxNum(arr, k) {
     }
     return max;
 }
-// maxNum([1, 12, 3, 4, 5], 2)
 function reverseString(s) {
     var bracketIndex = [];
     for (var i = 0; i < s.length; i++) {
         if (s.charAt(i) === '(')
             bracketIndex.push(i);
     }
-    console.log(bracketIndex);
     for (var j = bracketIndex.length - 1; j >= 0; j--) {
         var indexAt = bracketIndex[j];
-        console.log('check at index:', indexAt);
         var textAcc = [];
-        // Right
+        var endRight = 0;
+        var startLeft = 0;
         for (var k = indexAt; k <= s.length; k++) {
-            var char = s.charAt(k);
-            textAcc.push(char);
-            if (char === ')')
+            var char = s.charAt(k + 1);
+            if (char === ')') {
+                endRight = k + 2;
                 break;
+            }
+            else
+                textAcc.push(char);
         }
-        console.log('Right:', textAcc);
-        // Left
+        var swap = [];
+        for (var k = textAcc.length - 1; k >= 0; k--)
+            swap.push(textAcc[k]);
+        textAcc = swap;
         for (var k = indexAt; k >= 0; k--) {
             var char = s.charAt(k - 1);
-            if (char === ')' || char === '(')
+            if (char === ')' || char === '(') {
+                startLeft = k;
                 break;
-            textAcc.unshift(char);
+            }
+            else
+                textAcc.unshift(char);
         }
-        console.log('Left:', textAcc);
         var fncText = textAcc.join('');
-        console.log(fncText);
+        s = s.slice(0, startLeft) + fncText + s.slice(endRight, s.length);
     }
     return s;
 }
-// reverseString('foo(bar)');
-reverseString('a(foo(bar)b(noey)c)');
