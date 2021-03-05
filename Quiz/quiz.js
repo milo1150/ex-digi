@@ -24,6 +24,25 @@ function reverseString(s) {
     for (var j = bracketIndex.length - 1; j >= 0; j--) {
         var indexAt = bracketIndex[j];
         console.log('check at index:', indexAt);
+        var textAcc = [];
+        // Right
+        for (var k = indexAt; k <= s.length; k++) {
+            var char = s.charAt(k);
+            textAcc.push(char);
+            if (char === ')')
+                break;
+        }
+        console.log('Right:', textAcc);
+        // Left
+        for (var k = indexAt; k >= 0; k--) {
+            var char = s.charAt(k - 1);
+            if (char === ')' || char === '(')
+                break;
+            textAcc.unshift(char);
+        }
+        console.log('Left:', textAcc);
+        var fncText = textAcc.join('');
+        console.log(fncText);
     }
     return s;
 }

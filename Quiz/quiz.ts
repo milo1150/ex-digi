@@ -21,6 +21,23 @@ function reverseString(s: string): string {
     for (let j = bracketIndex.length - 1; j >= 0; j--) {
         const indexAt: number = bracketIndex[j];
         console.log('check at index:', indexAt)
+        const textAcc: string[] = [];
+        // Right
+        for (let k = indexAt; k <= s.length; k++) {
+            let char: string = s.charAt(k)
+            textAcc.push(char);
+            if (char === ')') break;
+        }
+        console.log('Right:', textAcc)
+        // Left
+        for (let k = indexAt; k >= 0; k--) {
+            let char: string = s.charAt(k - 1)
+            if (char === ')' || char === '(') break;
+            textAcc.unshift(char);
+        }
+        console.log('Left:', textAcc)
+        const fncText: string = textAcc.join('')
+        console.log(fncText)
     }
     return s;
 }
