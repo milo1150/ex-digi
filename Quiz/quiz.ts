@@ -33,7 +33,7 @@ function reverseString(s: string): string {
   }
   /**
    * Use each '(' syntax for starting point
-   * check from end to start
+   * start loop from last index of bracketIndex to first index
    */
   for (let j = bracketIndex.length - 1; j >= 0; j--) {
     const indexAt: number = bracketIndex[j];
