@@ -12,3 +12,8 @@ interface udata {
   password: string | number;
   name?: string;
 }
+
+export interface UpdateProfile {
+  uid: string;
+  name: string;
+}
