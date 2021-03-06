@@ -7,6 +7,16 @@ const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const app = express_1.default();
 app.use(express_1.default.json()); //req.body // === bodyParser.json()
+/* CORS */
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With, Content-Type,Accep,Authorization');
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATH,DELETE');
+        return res.status(200).json({});
+    }
+    next();
+});
 /**
 |--------------------------------------------------
 | Data
@@ -40,13 +50,11 @@ app.post('/api/v1/register', (req, res) => {
     const isUserExist = userList.find((value) => value.data.username === req.body.username);
     if (!req.body.username || !req.body.password) {
         return res.status(400).json({
-            status: 'error',
             message: 'Missing username or password',
         });
     }
     else if (isUserExist) {
-        return res.status(400).json({
-            status: 'error',
+        res.status(208).json({
             message: 'username is already exists',
         });
     }
@@ -125,7 +133,7 @@ app.patch('/api/v1/updateprofile', (req, res) => {
 | SERVER
 |--------------------------------------------------
 */
-const port = 3001;
+const port = 3003;
 app.listen(port, () => {
     console.log('hello');
 });
