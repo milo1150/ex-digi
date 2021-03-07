@@ -32,19 +32,18 @@ const P2 = styled.p`
 const Profile: React.FC = () => {
   const _dispatch = useDispatch();
   const data: UserData = useSelector<UserData, UserData>((state) => state);
-  // console.log(data);
   const [name, setName] = useState<string>(data.name);
   const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
 
   useEffect(() => {
     if (!data.uid) {
-      history.replace('/');
+      history.replace('/'); // prevent force path
     }
   }, [data.uid, history]);
 
   const logoutHandler = () => {
-    _dispatch({ type: 'CLEAR' });
+    _dispatch({ type: 'CLEAR' }); // prevent back to /profile
     history.replace('/');
   };
 

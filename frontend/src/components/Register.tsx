@@ -31,7 +31,7 @@ const SpanError = styled.span`
 `;
 
 const Register: React.FC = () => {
-  const [errMsg, setErrMsg] = useState<string>('');
+  const [errMsg, setErrMsg] = useState<string>(''); // error message (error from server)
   const history = useHistory();
   const { handleSubmit, control, errors } = useForm<UserInput>({
     defaultValues: {
@@ -90,6 +90,13 @@ const Register: React.FC = () => {
           {errors.password && <SpanError>password is required</SpanError>}
         </InputBox>
         <ActionBox>
+          <Button
+            style={{ width: '100%', marginRight: '10px' }}
+            type="default"
+            onClick={() => history.push('/')}
+          >
+            Back
+          </Button>
           <Button style={{ width: '100%' }} type="primary" htmlType="submit">
             Register
           </Button>

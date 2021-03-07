@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 | Data
 |--------------------------------------------------
 */
-let userList = [];
+let userList = []; // local data for speed up some valitdate
 const getUsernameList = () => {
     axios_1.default
         .get('https://ex-digi-default-rtdb.firebaseio.com/userid.json')
@@ -35,7 +35,7 @@ const getUsernameList = () => {
                 data: v[1],
             });
         }
-        console.log(userList);
+        // console.log(userList);
     });
 };
 getUsernameList();
@@ -46,7 +46,6 @@ getUsernameList();
 */
 /* Register */
 app.post('/api/v1/register', (req, res) => {
-    // Type annotaion ~ const body = req.body as LoginBody;
     const isUserExist = userList.find((value) => value.data.username === req.body.username);
     if (!req.body.username || !req.body.password) {
         return res.status(400).json({
@@ -140,5 +139,5 @@ app.patch('/api/v1/updateprofile', (req, res) => {
 */
 const port = 3003;
 app.listen(port, () => {
-    console.log('hello');
+    console.log('online');
 });

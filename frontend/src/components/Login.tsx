@@ -33,7 +33,7 @@ const SpanError = styled.span`
 `;
 
 const Login: React.FC = () => {
-  const [errMsg, setErrMsg] = useState<string>('');
+  const [errMsg, setErrMsg] = useState<string>(''); // error message (error from server)
   const history = useHistory();
   const _dispatch = useDispatch();
   const { errors, handleSubmit, control } = useForm<UserInput>({
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
   });
 
   useEffect(() => {
-    _dispatch({ type: 'CLEAR' });
+    _dispatch({ type: 'CLEAR' }); // clear redux when /Login render
   }, [_dispatch]);
 
   const loginHandler = async (data: UserInput) => {
@@ -52,7 +52,6 @@ const Login: React.FC = () => {
       .post('/api/v1/login', data)
       .then((res) => {
         setErrMsg('');
-        console.log(res);
         _dispatch({ type: 'UPDATE_INFO', payload: res.data.data });
         history.push('/profile');
       })

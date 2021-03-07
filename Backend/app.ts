@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 | Data
 |--------------------------------------------------
 */
-let userList: UserData2[] = [];
+let userList: UserData2[] = []; // local data for speed up some valitdate
 const getUsernameList = () => {
   axios
     .get('https://ex-digi-default-rtdb.firebaseio.com/userid.json')
@@ -37,7 +37,7 @@ const getUsernameList = () => {
           data: v[1],
         });
       }
-      console.log(userList);
+      // console.log(userList);
     });
 };
 getUsernameList();
@@ -52,7 +52,6 @@ getUsernameList();
 app.post(
   '/api/v1/register',
   (req: Request<{}, {}, LoginBody>, res: Response) => {
-    // Type annotaion ~ const body = req.body as LoginBody;
     const isUserExist: UserData2 | undefined = userList.find(
       (value) => value.data.username === req.body.username
     );
@@ -62,7 +61,7 @@ app.post(
       });
     } else if (isUserExist) {
       res.status(409).json({
-        message: 'username is already exists',
+        message: 'username is already exists', // check duplicate username
       });
     } else if (!isUserExist) {
       try {
@@ -159,5 +158,5 @@ app.patch(
 */
 const port = 3003;
 app.listen(port, () => {
-  console.log('hello');
+  console.log('online');
 });
