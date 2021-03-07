@@ -9,4 +9,6 @@ export interface UserData {
 | ActionType
 |--------------------------------------------------
 */
-export type ActionType = {}
+export type ActionType =
+  | { type: 'UPDATE_INFO'; payload: UserData }
+  | { type: 'CLEAR' };

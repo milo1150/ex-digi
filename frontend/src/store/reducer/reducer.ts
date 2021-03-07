@@ -4,8 +4,16 @@ const initialState: Types.UserData = {
   username: '',
   name: '',
 };
-const reducer = (state = initialState, action: any) => {
-  switch (action) {
+const reducer = (
+  state: Types.UserData = initialState,
+  action: Types.ActionType
+): Types.UserData => {
+  switch (action.type) {
+    case 'UPDATE_INFO':
+      // console.log('UPDATE_INFO', action.payload);
+      return action.payload;
+    case 'CLEAR':
+      return initialState;
     default:
       return state;
   }

@@ -39,21 +39,19 @@ const Register: React.FC = () => {
       password: '',
     },
   });
+
   const submitHandler = async (data: UserInput) => {
-    try {
-      axios.post('/api/v1/register', data).then((res) => {
-        const data: { message: string } = res.data;
-        if (res.status === 200) {
-          setErrMsg('');
-          history.push('/login');
-        } else if (res.status === 208) {
-          setErrMsg(data.message);
-        }
+    await axios
+      .post('/api/v1/register', data)
+      .then((res) => {
+        setErrMsg('');
+        history.push('/login');
+      })
+      .catch((err) => {
+        setErrMsg('username is already exists');
       });
-    } catch (error) {
-      throw new Error('Some thing wrong');
-    }
   };
+
   return (
     <Content>
       <P2>Register</P2>
@@ -72,7 +70,7 @@ const Register: React.FC = () => {
               />
             )}
           />
-          {errors.username && <SpanError>username required</SpanError>}
+          {errors.username && <SpanError>username is required</SpanError>}
         </InputBox>
         <InputBox>
           <Controller
@@ -89,15 +87,15 @@ const Register: React.FC = () => {
               />
             )}
           />
-          {errors.password && <SpanError>password required</SpanError>}
+          {errors.password && <SpanError>password is required</SpanError>}
         </InputBox>
         <ActionBox>
           <Button style={{ width: '100%' }} type="primary" htmlType="submit">
             Register
           </Button>
         </ActionBox>
+        <SpanError>{errMsg}</SpanError>
       </Form>
-      <SpanError>{errMsg}</SpanError>
     </Content>
   );
 };

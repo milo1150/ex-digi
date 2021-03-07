@@ -5,7 +5,7 @@ import axios from 'axios';
 const app = express();
 app.use(express.json()); //req.body // === bodyParser.json()
 
-/* CORS */
+/* CORS Handler */
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
@@ -13,7 +13,7 @@ app.use((req, res, next) => {
     'Origin,X-Requested-With, Content-Type,Accep,Authorization'
   );
   if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATH,DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
     return res.status(200).json({});
   }
   next();
@@ -61,7 +61,7 @@ app.post(
         message: 'Missing username or password',
       });
     } else if (isUserExist) {
-      res.status(208).json({
+      res.status(409).json({
         message: 'username is already exists',
       });
     } else if (!isUserExist) {
@@ -96,13 +96,19 @@ app.post('/api/v1/login', (req: Request<{}, {}, LoginBody>, res: Response) => {
         (value) => value.data.username === req.body.username
       );
       const isPassword: boolean =
-        userData?.data.password === parseInt(req.body.password);
+        userData?.data.password.toString() === req.body.password.toString();
+
       if (userData && isPassword) {
         res.status(200).json({
-          message: 'login complete',
+          message: 'OK',
+          data: {
+            uid: userData.uid,
+            username: userData.data.username,
+            name: userData.data.name,
+          },
         });
       } else {
-        res.status(400).json({
+        res.status(401).json({
           message: 'Invalid username or password',
         });
       }
@@ -135,8 +141,8 @@ app.patch(
           .then((res) => getUsernameList())
           .then(() => {
             res.status(200).json({
-              message: 'ok',
-              data: req.body.name,
+              message: 'OK',
+              data: { name: req.body.name },
             });
           });
       } catch (error) {
